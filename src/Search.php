@@ -192,7 +192,7 @@ class Search
      */
     public function addressDetails($details = true)
     {
-        $this->query['addressdetails'] = $details ? 1 : 0;
+        $this->query['addressdetails'] = $details ? "1" : "0";
 
         return $this;
     }
