@@ -3,7 +3,7 @@ Opendi Nominatim
 
 A simple interface to OSM Nominatim search.
 
-[![Latest Stable Version](https://poser.pugx.org/opendi/nominatim/v/stable.png)](https://packagist.org/packages/opendi/nominatim) [![Total Downloads](https://poser.pugx.org/opendi/nominatim/downloads.png)](https://packagist.org/packages/opendi/nominatim) [![Build Status](https://circleci.com/gh/opendi/nominatim.png?circle-token=:circle-token)](https://circleci.com/gh/opendi/nominatim) [![License](https://poser.pugx.org/opendi/nominatim/license.png)](https://packagist.org/packages/opendi/nominatim)
+[![Latest Stable Version](https://poser.pugx.org/opendi/nominatim/v/stable.png)](https://packagist.org/packages/opendi/nominatim) [![Total Downloads](https://poser.pugx.org/opendi/nominatim/downloads.png)](https://packagist.org/packages/opendi/nominatim) [![Build Status](https://circleci.com/gh/opendi/nominatim.png?circle-token=79b862406706bfb4020487aa98aa651a71a5cd4f)](https://circleci.com/gh/opendi/nominatim) [![License](https://poser.pugx.org/opendi/nominatim/license.png)](https://packagist.org/packages/opendi/nominatim)
 
 See [Nominatim documentation](http://wiki.openstreetmap.org/wiki/Nominatim) for
 info on the service.
@@ -30,7 +30,7 @@ $result = $nominatim->newSearch()
 
 Or break it down by address:
 
-```
+```php
 $result = $nominatim->newSearch()
     ->street('1600 Pennsylvania Ave NW')
     ->city('Washington')
