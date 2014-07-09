@@ -3,6 +3,8 @@ Opendi Nominatim
 
 A simple interface to OSM Nominatim search.
 
+[![Latest Stable Version](https://poser.pugx.org/opendi/nominatim/v/stable.png)](https://packagist.org/packages/opendi/nominatim) [![Total Downloads](https://poser.pugx.org/opendi/nominatim/downloads.png)](https://packagist.org/packages/opendi/nominatim) [![Build Status](https://circleci.com/gh/opendi/nominatim.png?circle-token=:circle-token)](https://circleci.com/gh/opendi/nominatim) [![License](https://poser.pugx.org/opendi/nominatim/license.png)](https://packagist.org/packages/opendi/nominatim)
+
 See [Nominatim documentation](http://wiki.openstreetmap.org/wiki/Nominatim) for
 info on the service.
 
