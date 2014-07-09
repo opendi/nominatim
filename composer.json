@@ -1,0 +1,30 @@
+{
+    "name": "opendi/nominatim",
+    "description": "A simple interface to OSM Nominatim search.",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Opendi AG",
+            "email": "info@opendi.com",
+            "homepage": "http://www.opendi.com/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "guzzlehttp/guzzle": ">=4.0.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "@stable"
+    },
+    "autoload": {
+        "psr-4": {
+            "Opendi\\Nominatim\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Opendi\\Nominatim\\Tests\\": "tests/"
+        }
+    }
+}
