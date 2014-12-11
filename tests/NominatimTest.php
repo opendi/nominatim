@@ -24,4 +24,16 @@ class NominatimTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Search::class, $instance->newSearch());
         $this->assertSame($guzzle, $instance->newSearch()->getClient());
     }
+
+    public function testSameGuzzleInstance()
+    {
+        $guzzle = m::mock("GuzzleHttp\\Client");
+        $baseSearch = new Search($guzzle);
+        $instance = new Nominatim($baseSearch);
+
+        $s1 = $instance->newSearch();
+        $s2 = $instance->newSearch();
+
+        $this->assertSame($s1->getClient(), $s2->getClient());
+    }
 }
