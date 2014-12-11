@@ -16,7 +16,7 @@ class Nominatim
      *
      * @var GuzzleHttp\Client
      */
-    private $guzzle;
+    private $client;
 
     /**
      * The search object which serves as a template for new ones created
@@ -26,12 +26,11 @@ class Nominatim
      */
     private $baseSearch;
 
-    public function __construct(Search $baseSearch)
+    public function __construct(Client $client, Search $baseSearch)
     {
+        $this->client = $client;
         $this->baseSearch = $baseSearch;
     }
-
-    // -- Factory methods ------------------------------------------------------
 
     /**
      * Factory method which creates a new instance of Nominatim.
@@ -40,29 +39,49 @@ class Nominatim
      *                         (e.g. http://nominatim.openstreetmap.org/)
      * @param  Search $baseSearch The object to use as base when
      *                         creating new searches.
-     * @return Nominatim
+     *
+     * @return Opendi\Nominatim\Nominatim
      */
     public static function newInstance($url, Search $baseSearch = null)
     {
-        $guzzle = new Client([
+        $client = new Client([
             'base_url' => $url
         ]);
 
         if (!isset($baseSearch)) {
-            $baseSearch = new Search($guzzle);
+            $baseSearch = new Search();
         }
 
-        return new Nominatim($baseSearch);
+        return new Nominatim($client, $baseSearch);
     }
 
     /**
-     * Returns a new search object.
+     * Returns a new search object based on the base search.
      *
      * @return Search
      */
     public function newSearch()
     {
         return clone $this->baseSearch;
+    }
+
+    /**
+     * Runs the query and returns the result set from Nominatim.
+     *
+     * @return array The decoded data returned from Nominatim.
+     */
+    public function find(Search $search)
+    {
+        $response = $this->client->get('search', [
+            'query' => $search->getQuery()
+        ]);
+
+        return $response->json();
+    }
+
+    public function getClient()
+    {
+        return $this->client;
     }
 
     /**
@@ -80,4 +99,3 @@ class Nominatim
         }
     }
 }
-

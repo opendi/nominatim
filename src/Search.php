@@ -12,40 +12,17 @@ use GuzzleHttp\Client;
 class Search
 {
     /**
-     * The Guzzle client used for comunnication with the nominatim server.
-     * @var GuzzleHttp\Client
-     */
-    private $guzzle;
-
-    /**
      * The HTTP query as an array.
      * @var array
      */
     private $query = [];
 
-    public function __construct(Client $guzzle, array $query = [])
+    public function __construct(array $query = [])
     {
-        $this->guzzle = $guzzle;
         $this->query = $query;
 
         // Hardcode format to JSON because we depend on it for decoding
         $this->query['format'] = 'json';
-    }
-
-    // -- The find method ------------------------------------------------------
-
-    /**
-     * Runs the query and returns the result set from Nominatim.
-     *
-     * @return array The decoded data returned from Nominatim.
-     */
-    public function find()
-    {
-        $response = $this->guzzle->get('search', [
-            'query' => $this->query
-        ]);
-
-        return $response->json();
     }
 
     // -- Builder methods ------------------------------------------------------
@@ -217,15 +194,5 @@ class Search
     public function getQueryString()
     {
         return http_build_query($this->query);
-    }
-
-    /**
-     * Returns the underlying Guzzle client.
-     *
-     * @return GuzzleHttp\Guzzle
-     */
-    public function getClient()
-    {
-        return $this->guzzle;
     }
 }

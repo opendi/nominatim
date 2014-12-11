@@ -88,29 +88,4 @@ class SearchTest extends \PHPUnit_Framework_TestCase
         $expected = http_build_query($query);
         $this->assertSame($expected, $search->getQueryString());
     }
-
-    public function testFind()
-    {
-        $mockData = ['foo' => 'bar'];
-
-        $mockResponse = m::mock('GuzzleHttp\Message\Response');
-        $mockResponse
-            ->shouldReceive('json')
-            ->once()
-            ->andReturn($mockData);
-
-        $guzzle = m::mock("GuzzleHttp\\Client");
-        $guzzle
-            ->shouldReceive('get')
-            ->once()
-            ->with('search', ['query'=>['format'=>'json','q'=>'foo']])
-            ->andReturn($mockResponse);
-
-        $nominatim = new Nominatim(new Search($guzzle));
-
-        $search = $nominatim->newSearch()->query('foo');
-        $queryString = $search->getQueryString();
-
-        $this->assertSame($mockData, $search->find());
-    }
 }

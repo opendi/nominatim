@@ -17,23 +17,65 @@ class NominatimTest extends \PHPUnit_Framework_TestCase
     public function testNominatimFactory()
     {
         $guzzle = m::mock("GuzzleHttp\\Client");
-        $baseSearch = new Search($guzzle);
-        $instance = new Nominatim($baseSearch);
+        $baseSearch = new Search();
+        $baseSearch->city("Zagreb");
+        $instance = new Nominatim($guzzle, $baseSearch);
+        $search = $instance->newSearch();
 
         $this->assertInstanceOf(Nominatim::class, $instance);
-        $this->assertInstanceOf(Search::class, $instance->newSearch());
-        $this->assertSame($guzzle, $instance->newSearch()->getClient());
+        $this->assertInstanceOf(Search::class, $search);
+        $this->assertEquals($baseSearch, $search);
+        $this->assertNotSame($baseSearch, $search);
+        $this->assertSame($guzzle, $instance->getClient());
     }
 
-    public function testSameGuzzleInstance()
+    public function testDefaults()
     {
+        $n = Nominatim::newInstance("http://nominatim.openstreetmap.org/");
+        $n->city("Zagreb");
+
+        $s = $n->newSearch();
+
+        $expected = [
+            "format" => "json",
+            "city" => "Zagreb",
+        ];
+
+        $this->assertSame($expected, $s->getQuery());
+    }
+
+    /**
+     * @expectedException BadMethodCallException
+     * @expectedExceptionMessage foo() does not exist
+     */
+    public function testInvalidMethod()
+    {
+        $n = Nominatim::newInstance("http://nominatim.openstreetmap.org/");
+        $n->foo();
+    }
+
+    public function testFind()
+    {
+        $mockData = ['foo' => 'bar'];
+
+        $mockResponse = m::mock('GuzzleHttp\Message\Response');
+        $mockResponse
+            ->shouldReceive('json')
+            ->once()
+            ->andReturn($mockData);
+
         $guzzle = m::mock("GuzzleHttp\\Client");
-        $baseSearch = new Search($guzzle);
-        $instance = new Nominatim($baseSearch);
+        $guzzle
+            ->shouldReceive('get')
+            ->once()
+            ->with('search', ['query'=>['format'=>'json','q'=>'foo']])
+            ->andReturn($mockResponse);
 
-        $s1 = $instance->newSearch();
-        $s2 = $instance->newSearch();
+        $nominatim = new Nominatim($guzzle, new Search());
 
-        $this->assertSame($s1->getClient(), $s2->getClient());
+        $search = $nominatim->newSearch()->query('foo');
+        $queryString = $search->getQueryString();
+
+        $this->assertSame($mockData, $nominatim->find($search));
     }
 }

@@ -23,46 +23,69 @@ $nominatim = Nominatim::newInstance($url);
 Searching by query:
 
 ```php
-$result = $nominatim->newSearch()
-    ->query('1600 Pennsylvania Ave NW, Washington, DC 20500, United States')
-    ->find();
+$search = $nominatim->newSearch();
+$search->query('1600 Pennsylvania Ave NW, Washington, DC 20500, United States');
+
+$nominatim->find($search);
 ```
 
 Or break it down by address:
 
 ```php
-$result = $nominatim->newSearch()
+$search = $nominatim->newSearch()
     ->street('1600 Pennsylvania Ave NW')
     ->city('Washington')
+    ->county('Washington')
+    ->state('Washington DC')
     ->postalCode('DC 20500')
     ->country('United States')
-    ->find();
+    ->addressDetails();
+
+$nominatim->find($search);
 ```
 
 The result will be an array of results (in this case, only one result was
 found).
 
 ```php
-array (
-  array (
-    'place_id' => '9141060761',
-    'licence' => 'Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright',
-    'osm_type' => 'way',
-    'osm_id' => '238241022',
-    'boundingbox' =>
-    array (
-      '38.8974876403809',
-      '38.8979110717773',
-      '-77.0368576049805',
-      '-77.036247253418',
-    ),
-    'lat' => '38.8976989',
-    'lon' => '-77.036553192281',
-    'display_name' => 'The White House, 1600, Pennsylvania Avenue Northwest, Farragut Square, Southwest Waterfront, Washington, 20500, United States of America',
-    'class' => 'tourism',
-    'type' => 'attraction',
-    'importance' => 1.3376757387296001,
-    'icon' => 'http://nominatim.openstreetmap.org/images/mapicons/poi_point_of_interest.p.20.png',
-  ),
+Array
+(
+    [0] => Array
+        (
+            [place_id] => 2632584431
+            [licence] => Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
+            [osm_type] => way
+            [osm_id] => 238241022
+            [boundingbox] => Array
+                (
+                    [0] => 38.8974898
+                    [1] => 38.897911
+                    [2] => -77.0368539
+                    [3] => -77.0362521
+                )
+
+            [lat] => 38.8976989
+            [lon] => -77.036553192281
+            [display_name] => The White House, 1600, Pennsylvania Avenue Northwest, Thomas Circle, Southwest Waterfront, Washington, 20500, United States of America
+            [class] => tourism
+            [type] => attraction
+            [importance] => 1.5576757387296
+            [icon] => http://nominatim.openstreetmap.org/images/mapicons/poi_point_of_interest.p.20.png
+            [address] => Array
+                (
+                    [attraction] => The White House
+                    [house_number] => 1600
+                    [pedestrian] => Pennsylvania Avenue Northwest
+                    [neighbourhood] => Thomas Circle
+                    [suburb] => Southwest Waterfront
+                    [city] => Washington
+                    [county] => Washington
+                    [postcode] => 20500
+                    [country] => United States of America
+                    [country_code] => us
+                )
+
+        )
+
 )
 ```
