@@ -1,8 +1,8 @@
 Opendi Nominatim Changelog
 ==========================
 
-0.2 (2014-07-09)
-----------------
+0.2.0 (2015-02-05)
+------------------
 
 * Moved `Search::find()` to `Nominatim::find()` (**BC break**)
 
