@@ -45,7 +45,7 @@ class Nominatim
     public static function newInstance($url, Search $baseSearch = null)
     {
         $client = new Client([
-            'base_url' => $url
+            'base_uri' => $url
         ]);
 
         if (!isset($baseSearch)) {
@@ -76,7 +76,7 @@ class Nominatim
             'query' => $search->getQuery()
         ]);
 
-        return $response->json();
+        return json_decode($response->getBody(), true);
     }
 
     public function getClient()
