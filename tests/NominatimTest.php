@@ -6,8 +6,9 @@ use Mockery as m;
 
 use Opendi\Nominatim\Nominatim;
 use Opendi\Nominatim\Search;
+use PHPUnit\Framework\TestCase;
 
-class NominatimTest extends \PHPUnit_Framework_TestCase
+class NominatimTest extends TestCase
 {
     protected function tearDown()
     {
