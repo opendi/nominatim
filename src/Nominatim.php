@@ -12,9 +12,9 @@ use GuzzleHttp\Client;
 class Nominatim
 {
     /**
-     * The Guzzle client used for comunnication with the nominatim server.
+     * The Guzzle client used for communication with the nominatim server.
      *
-     * @var GuzzleHttp\Client
+     * @var Client
      */
     private $client;
 
@@ -40,7 +40,7 @@ class Nominatim
      * @param  Search $baseSearch The object to use as base when
      *                         creating new searches.
      *
-     * @return Opendi\Nominatim\Nominatim
+     * @return Nominatim
      */
     public static function newInstance($url, Search $baseSearch = null)
     {
