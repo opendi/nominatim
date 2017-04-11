@@ -6,8 +6,9 @@ use Mockery as m;
 
 use Opendi\Nominatim\Nominatim;
 use Opendi\Nominatim\Search;
+use PHPUnit\Framework\TestCase;
 
-class NominatimTest extends \PHPUnit_Framework_TestCase
+class NominatimTest extends TestCase
 {
     protected function tearDown()
     {
@@ -56,11 +57,11 @@ class NominatimTest extends \PHPUnit_Framework_TestCase
 
     public function testFind()
     {
-        $mockData = ['foo' => 'bar'];
+        $mockData = '{"foo": "bar"}';
 
         $mockResponse = m::mock('GuzzleHttp\Message\Response');
         $mockResponse
-            ->shouldReceive('json')
+            ->shouldReceive('getBody')
             ->once()
             ->andReturn($mockData);
 
@@ -76,6 +77,6 @@ class NominatimTest extends \PHPUnit_Framework_TestCase
         $search = $nominatim->newSearch()->query('foo');
         $queryString = $search->getQueryString();
 
-        $this->assertSame($mockData, $nominatim->find($search));
+        $this->assertSame(json_decode($mockData, true), $nominatim->find($search));
     }
 }
